@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { Copy, Download, Play, Edit3 } from 'lucide-react';
+import { Copy, Download, Edit3 } from 'lucide-react';
 import { downloadCode } from '../lib/download';
-import { executeCode } from '../lib/piston';
-import { PISTON_LANGUAGE_MAPPING } from '../lib/constants';
 import { CodeEditor } from './CodeEditor';
 import toast from 'react-hot-toast';
+
 
 interface CodeBlockProps {
   code: string;
@@ -18,8 +17,6 @@ interface CodeBlockProps {
 }
 
 export function CodeBlock({ code, language, title, author, postId, onCodeUpdate }: CodeBlockProps) {
-  const [output, setOutput] = useState<string | null>(null);
-  const [isExecuting, setIsExecuting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentCode, setCurrentCode] = useState(code);
 
@@ -51,33 +48,7 @@ export function CodeBlock({ code, language, title, author, postId, onCodeUpdate 
     }
   };
 
-  const handleExecute = async () => {
-    const pistonLanguage = PISTON_LANGUAGE_MAPPING[language];
-    if (!pistonLanguage) {
-      toast.error('Code execution is not supported for this language');
-      return;
-    }
 
-    setIsExecuting(true);
-    setOutput(null); // Clear previous output
-
-    try {
-      const result = await executeCode(pistonLanguage, currentCode);
-      
-      if (result.run.code === 0) {
-        setOutput(result.run.output || 'Program executed successfully with no output');
-        toast.success('Code executed successfully!');
-      } else if (result.error) {
-        setOutput(result.error.message);
-        toast.error(result.error.type === 'timeout' ? 'Program timed out' : 'Execution failed');
-      }
-    } catch (error) {
-      setOutput(`Error: ${error.message}`);
-      toast.error('Failed to execute code');
-    } finally {
-      setIsExecuting(false);
-    }
-  };
 
   if (isEditing) {
     return (
@@ -104,17 +75,6 @@ export function CodeBlock({ code, language, title, author, postId, onCodeUpdate 
           >
             <Edit3 className="responsive-icon" />
           </button>
-          
-          {PISTON_LANGUAGE_MAPPING[language] && (
-            <button
-              onClick={handleExecute}
-              disabled={isExecuting}
-              className="p-1.5 sm:p-2 bg-white dark:bg-gray-800 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-              title="Execute code"
-            >
-              <Play className="responsive-icon" />
-            </button>
-          )}
           <button
             onClick={copyCode}
             className="p-1.5 sm:p-2 bg-white dark:bg-gray-800 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
@@ -145,13 +105,6 @@ export function CodeBlock({ code, language, title, author, postId, onCodeUpdate 
           {currentCode}
         </SyntaxHighlighter>
       </div>
-      
-      {output && (
-        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 sm:p-4 font-mono text-xs sm:text-sm">
-          <h4 className="text-xs sm:text-sm font-medium mb-2">Output:</h4>
-          <pre className="whitespace-pre-wrap break-words overflow-x-auto">{output}</pre>
-        </div>
-      )}
     </div>
   );
 }

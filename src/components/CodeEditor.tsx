@@ -104,7 +104,7 @@ export function CodeEditor({ code, language, postId, title, author, onSave, onCa
 
   const handleSave = async () => {
     if (!hasChanges) {
-      toast.info('No changes to save');
+      // toast.info('No changes to save');
       return;
     }
 
