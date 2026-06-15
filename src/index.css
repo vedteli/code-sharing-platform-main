@@ -1,0 +1,249 @@
+/* Import Google Fonts for better typography */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile-first responsive design */
+@layer base {
+  html {
+    font-size: 16px;
+  }
+  
+  @media (max-width: 480px) {
+    html {
+      font-size: 14px;
+    }
+  }
+}
+
+/* Mobile responsive utilities */
+@layer utilities {
+  .mobile-scroll {
+    @apply overflow-x-auto scrollbar-hide;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-card {
+    @apply p-3 space-y-2;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-card {
+      @apply p-4 space-y-0;
+    }
+  }
+  
+  .mobile-text {
+    @apply text-sm;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-text {
+      @apply text-base;
+    }
+  }
+  
+  .mobile-button {
+    @apply px-3 py-2 text-sm;
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-button {
+      @apply px-4 py-2 text-base;
+    }
+  }
+
+  /* Responsive icon and image utilities */
+  .responsive-icon {
+    @apply w-4 h-4 flex-shrink-0;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  @media (min-width: 640px) {
+    .responsive-icon {
+      @apply w-5 h-5;
+    }
+  }
+  
+  .responsive-icon-lg {
+    @apply w-6 h-6 flex-shrink-0;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  @media (min-width: 640px) {
+    .responsive-icon-lg {
+      @apply w-8 h-8;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .responsive-icon-lg {
+      @apply w-10 h-10;
+    }
+  }
+  
+  .responsive-avatar {
+    @apply w-8 h-8 flex-shrink-0 rounded-full;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  @media (min-width: 640px) {
+    .responsive-avatar {
+      @apply w-10 h-10;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .responsive-avatar {
+      @apply w-12 h-12;
+    }
+  }
+  
+  /* Ensure all images are responsive by default */
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* File type emoji sizing */
+  .file-emoji {
+    font-size: 1.25rem;
+    line-height: 1;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  
+  @media (min-width: 640px) {
+    .file-emoji {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .file-emoji {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+/* Search highlight animation */
+@keyframes searchHighlight {
+  0% {
+    background-color: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    background-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.search-highlight {
+  animation: searchHighlight 2s ease-in-out;
+  border-radius: 0.5rem;
+}
+
+/* Hide scrollbar for mobile scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile dropdown animations */
+.mobile-dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* PWA Animations */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+/* Intro Animation Styles */
+.intro-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Prevent scrolling during intro */
+body.intro-active {
+  overflow: hidden;
+}
+
+/* Enhanced logo styling */
+.navbar-logo {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 600;
+}
+
+/* Smooth content reveal */
+.content-reveal {
+  animation: contentReveal 1s ease-out forwards;
+}
+
+@keyframes contentReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
